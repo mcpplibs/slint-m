@@ -1,25 +1,25 @@
 # slintgen — how a `.slint` file becomes part of a C++ program, as a package.
 #
-# The module is `mcpp.plugins.slint` (rules/src/slint.cppm). A consumer's
+# The module is `slint.mcpp.plugins` (rules/src/slint.cppm). A consumer's
 # build.mcpp imports it:
 #
 #   import mcpp;
-#   import mcpp.plugins.slint;
+#   import slint.mcpp.plugins;
 #   int main() { return mcpp::plugins::slint::compile({}) ? 0 : 1; }
 #
 # It lives here, beside the modules whose Slint SDK it drives, as grpcgen lives
 # in grpc-m: mcpp-plugins holds the rules that are not tied to one library's
-# release, this repository the one that is. SPEC-007 R9.6 keeps `mcpp.plugins.*`
-# for the mcpp project's own namespace, so the engine warns once per build that
-# a package outside it provides this module; the name is the maintainer's
-# choice and the warning is its price.
+# release, this repository the one that is. The module is named under the
+# library's own name (`slint.mcpp.plugins`), not under `mcpp.`: SPEC-007 R9.6
+# keeps `mcpp.plugins.*` for the mcpp project's namespace, and the index admits
+# no package that provides such a module.
 #
 # Versioned with slint-m (and so with the Slint it is built against).
 [package]
 name        = "slintgen"
-version     = "1.19.0"
+version     = "1.19.0.1"
 standard    = "c++23"
-description = "slint-compiler as an importable mcpp build rule (module mcpp.plugins.slint)"
+description = "slint-compiler as an importable mcpp build rule (module slint.mcpp.plugins)"
 license     = "Apache-2.0"
 repo        = "https://github.com/mcpplibs/slint-m"
 platforms   = ["linux", "macos", "windows"]
@@ -38,7 +38,7 @@ default = []
 
 [features.slint]
 sources           = ["src/slint.cppm"]
-rule_module       = "mcpp.plugins.slint"
+rule_module       = "slint.mcpp.plugins"
 device_extensions = [".slint"]
 
 [targets.slintgen]

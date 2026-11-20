@@ -101,7 +101,7 @@ jobs:
       - name: Tests, release profile
         run: mcpp test --profile release
 
-      - name: mcpp.plugins.slint generates a component, its module, and runs it headless with the SDK the project declares
+      - name: slint.mcpp.plugins generates a component, its module, and runs it headless with the SDK the project declares
         run: MCPP="$(command -v mcpp)" bash tests/rule-consumer/check-slint.sh
 
       - name: Export audit (the generated surface is fresh; every public name, key code and feature of the SDK's headers)

@@ -1,4 +1,4 @@
-# Fixture: a Slint user interface compiled by mcpp.plugins.slint, run headless.
+# Fixture: a Slint user interface compiled by slint.mcpp.plugins, run headless.
 #
 #   ui/app.slint        a window (through a base component), a struct, an
 #                       enum, a global, a non-window export (no code), and a
@@ -11,7 +11,7 @@
 [package]
 name        = "slint-consumer"
 version     = "0.1.0"
-description = "Fixture: a Slint UI built through mcpp.plugins.slint"
+description = "Fixture: a Slint UI built through slint.mcpp.plugins"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]
 

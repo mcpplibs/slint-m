@@ -2,8 +2,8 @@
 [package]
 namespace   = "mcpplibs.mwrap"
 name        = "slint"
-version     = "1.19.0"
-description = "Slint 1.19.0 C++ modules for mcpp (import mcpplibs.mwrap.slint;): the runtime API, the interpreter and the platform API over compat.slint, the features as constants; .slint files compile with mcpp.plugins.slint"
+version     = "1.19.0.1"
+description = "Slint 1.19.0 C++ modules for mcpp (import mcpplibs.mwrap.slint;): the runtime API, the interpreter and the platform API over compat.slint, the features as constants; .slint files compile with slint.mcpp.plugins"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]
 repo        = "https://github.com/mcpplibs/slint-m"
@@ -20,7 +20,7 @@ include_dirs = ["include"]
 [dependencies]
 # The SDK: libslint_cpp, its headers and slint-compiler. Re-exported, so a
 # consumer's build program finds slint-compiler in it (the rule
-# mcpp.plugins.slint, package mcpplibs.slintgen, is rules/ of this repository).
+# slint.mcpp.plugins, package mcpplibs.slintgen, is rules/ of this repository).
 compat.slint = { version = "1.19.0", reexport = true }
 
 [package.metadata.mwrap]

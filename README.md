@@ -13,7 +13,7 @@ The upstream API is unchanged: `slint::ComponentHandle`, `slint::SharedString`,
 `slint::VectorModel`, `slint::interpreter::ComponentCompiler` are the names of
 `<slint.h>`. The SDK is `compat.slint` 1.19.0 (xim:slint: `libslint_cpp`, its
 headers and `slint-compiler`, built from the release tag with upstream CMake's
-default features). A `.slint` file is compiled by `mcpp.plugins.slint` (package
+default features). A `.slint` file is compiled by `slint.mcpp.plugins` (package
 `mcpplibs.slintgen`, in `rules/` of this repository), which the project's `build.mcpp`
 imports; with `module` set, each file becomes a module the program imports.
 
@@ -23,7 +23,7 @@ imports; with `module` set, each file becomes a module the program imports.
 - `import mcpplibs.mwrap.slint.interpreter;`: `slint::interpreter` -- `.slint` sources loaded at run time
 - `import mcpplibs.mwrap.slint.platform;`: `slint::platform` -- a custom platform, the software renderer (Clang; with GCC include `<slint-platform.h>`)
 - `import mcpplibs.mwrap.slint.macros;`: `SLINT_FEATURE_*` as `constexpr bool` in `mcpplibs::mwrap::slint::macros`
-- `import app.ui;`: a component of yours, from `ui/app.slint` (`mcpp.plugins.slint`, `options::module`)
+- `import app.ui;`: a component of yours, from `ui/app.slint` (`slint.mcpp.plugins`, `options::module`)
 
 > More Modules API -> [Usage and API](docs/usage.md)
 
@@ -40,10 +40,10 @@ The default template opens a window with a counter; without a display (or with
 
 ```toml
 [dependencies]
-mcpplibs.mwrap.slint = "1.19.0"
+mcpplibs.mwrap.slint = "1.19.0.1"
 
 [build-dependencies]
-mcpplibs.slintgen = { version = "1.19.0", features = ["slint"] }   # claims `.slint`
+mcpplibs.slintgen = { version = "1.19.0.1", features = ["slint"] }   # claims `.slint`
 
 [build]
 sources = ["src/*.cpp", "ui/app.slint"]
@@ -52,7 +52,7 @@ sources = ["src/*.cpp", "ui/app.slint"]
 ```cpp
 // build.mcpp
 import mcpp;
-import mcpp.plugins.slint;
+import slint.mcpp.plugins;
 int main() {
     mcpp::plugins::slint::options o;
     o.module = "app.ui";
@@ -90,7 +90,7 @@ the runtime types through the module, and a component compiled at run time by
 export audit ([tools/check_exports.py](tools/check_exports.py)) reads clang's AST of
 the SDK's headers: every public name exported, the key codes and features mapped,
 the SDK's features upstream CMake's defaults. A separate job scaffolds the default
-template as an installed package, builds it with `mcpp.plugins.slint` and runs it
+template as an installed package, builds it with `slint.mcpp.plugins` and runs it
 headless.
 
 ## License

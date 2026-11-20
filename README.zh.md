@@ -12,7 +12,7 @@
 上游 API 保持不变：`slint::ComponentHandle`、`slint::SharedString`、`slint::VectorModel`、
 `slint::interpreter::ComponentCompiler` 就是 `<slint.h>` 里的名字。SDK 是 `compat.slint`
 1.19.0（xim:slint：`libslint_cpp`、头文件和 `slint-compiler`，由发布 tag 按上游 CMake
-默认功能构建）。`.slint` 文件由 `mcpp.plugins.slint`（包 `mcpplibs.slintgen`，在本仓库的 `rules/`）编译，
+默认功能构建）。`.slint` 文件由 `slint.mcpp.plugins`（包 `mcpplibs.slintgen`，在本仓库的 `rules/`）编译，
 由工程的 `build.mcpp` 导入；设置 `module` 后，每个文件都成为程序可以 import 的模块。
 
 ## 模块
@@ -21,7 +21,7 @@
 - `import mcpplibs.mwrap.slint.interpreter;`：`slint::interpreter`，运行时加载 `.slint` 源码
 - `import mcpplibs.mwrap.slint.platform;`：`slint::platform`，自定义平台与软件渲染器（Clang；GCC 下请 include `<slint-platform.h>`）
 - `import mcpplibs.mwrap.slint.macros;`：`SLINT_FEATURE_*` 映射为 `constexpr bool`，位于 `mcpplibs::mwrap::slint::macros`
-- `import app.ui;`：你自己的组件，来自 `ui/app.slint`（`mcpp.plugins.slint` 的 `options::module`）
+- `import app.ui;`：你自己的组件，来自 `ui/app.slint`（`slint.mcpp.plugins` 的 `options::module`）
 
 > 更多模块 API -> [用法和 API](docs/usage.md)
 
@@ -38,10 +38,10 @@ mcpp run
 
 ```toml
 [dependencies]
-mcpplibs.mwrap.slint = "1.19.0"
+mcpplibs.mwrap.slint = "1.19.0.1"
 
 [build-dependencies]
-mcpplibs.slintgen = { version = "1.19.0", features = ["slint"] }   # 认领 `.slint`
+mcpplibs.slintgen = { version = "1.19.0.1", features = ["slint"] }   # 认领 `.slint`
 
 [build]
 sources = ["src/*.cpp", "ui/app.slint"]
@@ -50,7 +50,7 @@ sources = ["src/*.cpp", "ui/app.slint"]
 ```cpp
 // build.mcpp
 import mcpp;
-import mcpp.plugins.slint;
+import slint.mcpp.plugins;
 int main() {
     mcpp::plugins::slint::options o;
     o.module = "app.ui";
@@ -84,7 +84,7 @@ Linux、macOS 与 Windows 的 CI 用 GCC 和 Clang 构建模块并运行测试�
 以及由 `slint::interpreter` 在运行时编译组件、在无头平台上通过属性和回调驱动它。导出审计
 （[tools/check_exports.py](tools/check_exports.py)）读取 SDK 头文件的 clang AST：每个公开名字都已导出，
 按键码与功能都已映射，SDK 的功能即上游 CMake 默认值。另有一个任务把默认模板当作已安装包生成项目，
-经 `mcpp.plugins.slint` 构建并无头运行。
+经 `slint.mcpp.plugins` 构建并无头运行。
 
 ## 许可
 

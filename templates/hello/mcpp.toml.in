@@ -7,7 +7,7 @@ kind = "bin"
 main = "src/main.cpp"
 
 [build]
-# ui/app.slint reaches mcpp.plugins.slint, which writes app.h and the module app.ui.
+# ui/app.slint reaches slint.mcpp.plugins, which writes app.h and the module app.ui.
 sources = ["src/*.cpp", "ui/app.slint"]
 
 [dependencies]

@@ -1,25 +1,25 @@
-# `mcpp.plugins.slint`
+# `slint.mcpp.plugins`
 
-`mcpp.plugins.slint` compiles [Slint](https://slint.dev) user interfaces: each `.slint` file becomes, through `slint-compiler`, a C++ header (and on request a number of `.cpp` units and a C++ module) the program uses. It is what upstream's CMake function `slint_target_sources` does. The rule declares no SDK and pins no version: the compiler and the runtime the program links come from one Slint SDK the project chooses. Package `mcpplibs.slintgen` (`rules/` of this repository), module `mcpp.plugins.slint`; engine floor 2026.10.1.3.
+`slint.mcpp.plugins` compiles [Slint](https://slint.dev) user interfaces: each `.slint` file becomes, through `slint-compiler`, a C++ header (and on request a number of `.cpp` units and a C++ module) the program uses. It is what upstream's CMake function `slint_target_sources` does. The rule declares no SDK and pins no version: the compiler and the runtime the program links come from one Slint SDK the project chooses. Package `mcpplibs.slintgen` (`rules/` of this repository), module `slint.mcpp.plugins`; engine floor 2026.10.1.3.
 
 ## Use
 
 ```toml
 [build-dependencies]
-mcpplibs.slintgen = { version = "1.19.0", features = ["slint"] }
+mcpplibs.slintgen = { version = "1.19.0.1", features = ["slint"] }
 
 [dependencies]
-mcpplibs.mwrap.slint = "1.19.0"      # or compat.slint: the SDK as a package
+mcpplibs.mwrap.slint = "1.19.0.1"      # or compat.slint: the SDK as a package
 
 [build]
 sources = ["src/*.cpp", "ui/app.slint"]
 ```
 
-The project names the feature itself: `.slint` becomes a source the rule claims through the feature (`device_extensions`), and a claim made by a package another package re-exports does not reach the project. The module name `mcpp.plugins.slint` is the maintainers' choice; SPEC-007 R9.6 keeps `mcpp.plugins.*` for the mcpp project's namespace, so the engine prints one warning per build that a package outside it provides the module ("Nothing breaks").
+The project names the feature itself: `.slint` becomes a source the rule claims through the feature (`device_extensions`), and a claim made by a package another package re-exports does not reach the project. The module is named `slint.mcpp.plugins`, under the library's name: SPEC-007 R9.6 keeps `mcpp.plugins.*` for the mcpp project's namespace. Its C++ namespace is `mcpp::plugins::slint`, beside the engine's `mcpp::plugins`.
 
 ```cpp
 // build.mcpp
-import mcpp.plugins.slint;
+import slint.mcpp.plugins;
 
 int main() {
     mcpp::plugins::slint::options o;
@@ -68,7 +68,7 @@ The rule reads the `.slint` files while the build program runs, so a change to t
 
 ## The SDK
 
-The first that answers decides, recorded as the fact `mcpp.plugins.slint.sdk`:
+The first that answers decides, recorded as the fact `slint.mcpp.plugins.sdk`:
 
 | level | how |
 |---|---|

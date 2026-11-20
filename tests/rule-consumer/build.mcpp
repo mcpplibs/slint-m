@@ -2,7 +2,7 @@
 // exports what ui/app.slint exports and slint-compiler generates.
 import std;
 import mcpp;
-import mcpp.plugins.slint;
+import slint.mcpp.plugins;
 
 int main() {
     mcpp::plugins::slint::options o;

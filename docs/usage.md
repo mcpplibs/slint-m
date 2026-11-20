@@ -28,7 +28,7 @@ import mcpplibs.mwrap.slint;
 
 ## Components from `.slint` files
 
-`mcpp.plugins.slint` (package `mcpplibs.slintgen`, `rules/` of this repository; declared in `[build-dependencies]` with `features = ["slint"]`, which also makes `.slint` a source the rule claims, and compat.slint re-exports `slint-compiler`) runs `slint-compiler` on each `.slint` file of `[build] sources`: one action per file, regenerated when the file or one it imports changes. Its options are upstream CMake's `slint_target_sources` and target properties (`ns`, `library_paths`, `compilation_units`, `edition`, `style`, `embed_resources`, `scale_factor`, `translation_domain`, `bundle_translations`); with `module = "app.ui"` each file also becomes a module exporting its windows, structs, enums and globals. See [rules.md](rules.md).
+`slint.mcpp.plugins` (package `mcpplibs.slintgen`, `rules/` of this repository; declared in `[build-dependencies]` with `features = ["slint"]`, which also makes `.slint` a source the rule claims, and compat.slint re-exports `slint-compiler`) runs `slint-compiler` on each `.slint` file of `[build] sources`: one action per file, regenerated when the file or one it imports changes. Its options are upstream CMake's `slint_target_sources` and target properties (`ns`, `library_paths`, `compilation_units`, `edition`, `style`, `embed_resources`, `scale_factor`, `translation_domain`, `bundle_translations`); with `module = "app.ui"` each file also becomes a module exporting its windows, structs, enums and globals. See [rules.md](rules.md).
 
 ## The SDK's features
 

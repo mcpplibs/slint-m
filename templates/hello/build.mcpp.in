@@ -1,7 +1,7 @@
-// ui/app.slint -> app.h and `export module app.ui;` (mcpp.plugins.slint, which
+// ui/app.slint -> app.h and `export module app.ui;` (slint.mcpp.plugins, which
 // package mcpplibs.slintgen runs on the SDK compat.slint provides).
 import mcpp;
-import mcpp.plugins.slint;
+import slint.mcpp.plugins;
 
 int main() {
     mcpp::plugins::slint::options o;

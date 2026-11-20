@@ -1,0 +1,51 @@
+// {{project.name}} -- a Slint window: ui/app.slint is compiled into the module
+// app.ui (mcpp.plugins.slint), the counter lives in C++.
+//
+// Without a display (Linux with neither DISPLAY nor WAYLAND_DISPLAY, or
+// SLINT_HEADLESS=1) the program uses Slint's software renderer behind a
+// headless platform, presses the button three times and prints the counter.
+#include <slint-platform.h>  // before the imports (the platform API, under every compiler)
+
+import std;
+import mcpplibs.mwrap.slint;
+import app.ui;
+
+namespace {
+
+struct HeadlessWindow : slint::platform::WindowAdapter {
+    slint::platform::SoftwareRenderer renderer_{slint::platform::SoftwareRenderer::RepaintBufferType::NewBuffer};
+    slint::platform::AbstractRenderer& renderer() override { return renderer_; }
+    slint::PhysicalSize size() override { return slint::PhysicalSize({ .width = 320, .height = 200 }); }
+};
+
+struct HeadlessPlatform : slint::platform::Platform {
+    std::unique_ptr<slint::platform::WindowAdapter> create_window_adapter() override {
+        return std::make_unique<HeadlessWindow>();
+    }
+};
+
+bool headless() {
+    if (const char* v = std::getenv("SLINT_HEADLESS"); v && *v && std::string_view(v) != "0") return true;
+#if defined(__linux__)
+    return !std::getenv("DISPLAY") && !std::getenv("WAYLAND_DISPLAY");
+#else
+    return false;
+#endif
+}
+
+}  // namespace
+
+int main() {
+    const bool offscreen = headless();
+    if (offscreen) slint::platform::set_platform(std::make_unique<HeadlessPlatform>());
+
+    auto ui = AppWindow::create();
+    ui->on_increase([&] { ui->set_counter(ui->get_counter() + 1); });
+
+    if (offscreen) {
+        for (int i = 0; i < 3; ++i) ui->invoke_increase();
+        std::println("{{project.name}}: headless, counter = {}", ui->get_counter());
+        return ui->get_counter() == 3 ? 0 : 1;
+    }
+    ui->run();
+}

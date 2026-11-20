@@ -1,0 +1,12 @@
+import { Button, VerticalBox } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    title: "Hello, Slint";
+    in-out property <int> counter: 0;
+    callback increase();
+
+    VerticalBox {
+        Text { text: "Pressed \{root.counter} times"; horizontal-alignment: center; }
+        Button { text: "Press"; clicked => { root.increase(); } }
+    }
+}

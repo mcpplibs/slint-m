@@ -1,25 +1,33 @@
 # slintgen — how a `.slint` file becomes part of a C++ program, as a package.
 #
-# The module is `slint.mcpp.plugins` (rules/src/slint.cppm). A consumer's
+# The module is `mcpp.mcpplibs.slintgen` (rules/src/slint.cppm). A consumer's
 # build.mcpp imports it:
 #
 #   import mcpp;
-#   import slint.mcpp.plugins;
-#   int main() { return mcpp::plugins::slint::compile({}) ? 0 : 1; }
+#   import mcpp.mcpplibs.slintgen;
+#   int main() { return mcpp::mcpplibs::slintgen::compile({}) ? 0 : 1; }
 #
 # It lives here, beside the modules whose Slint SDK it drives, as grpcgen lives
 # in grpc-m: mcpp-plugins holds the rules that are not tied to one library's
-# release, this repository the one that is. The module is named under the
-# library's own name (`slint.mcpp.plugins`), not under `mcpp.`: SPEC-007 R9.6
-# keeps `mcpp.plugins.*` for the mcpp project's namespace, and the index admits
-# no package that provides such a module.
+# release, this repository the one that is.
+#
+# One name in three spellings, as mcpplibs.openkal-bind is (SPEC-007 R9.6, a
+# third-party plugin's `mcpp.<namespace>.<name>`):
+#
+#   package    mcpplibs.slintgen
+#   module     mcpp.mcpplibs.slintgen
+#   namespace  mcpp::mcpplibs::slintgen
+#
+# mcpplibs.mwrap.slint re-exports it, so a project that depends on the wrapper
+# imports the module in its build.mcpp and passes its `.slint` files as
+# `options::sources`.
 #
 # Versioned with slint-m (and so with the Slint it is built against).
 [package]
 name        = "slintgen"
-version     = "1.19.0.1"
+version     = "1.19.0.2"
 standard    = "c++23"
-description = "slint-compiler as an importable mcpp build rule (module slint.mcpp.plugins)"
+description = "slint-compiler as an importable mcpp build rule (module mcpp.mcpplibs.slintgen)"
 license     = "Apache-2.0"
 repo        = "https://github.com/mcpplibs/slint-m"
 platforms   = ["linux", "macos", "windows"]
@@ -30,16 +38,6 @@ platforms   = ["linux", "macos", "windows"]
 # program compiles it with the module.
 [dependencies]
 mcpp.plugins = { version = "0.26.1", features = ["plugins-core"] }
-
-# `.slint` is no extension the engine knows: the feature claims it, so a project
-# lists `ui/app.slint` in `[build] sources` and the rule submits its action.
-[features]
-default = []
-
-[features.slint]
-sources           = ["src/slint.cppm"]
-rule_module       = "slint.mcpp.plugins"
-device_extensions = [".slint"]
 
 [targets.slintgen]
 kind = "lib"

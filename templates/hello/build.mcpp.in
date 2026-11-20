@@ -1,11 +1,12 @@
-// ui/app.slint -> app.h and `export module app.ui;` (slint.mcpp.plugins, which
-// package mcpplibs.slintgen runs on the SDK compat.slint provides).
+// ui/app.slint -> app.h and `export module app.ui;` (mcpp.mcpplibs.slintgen, which
+// mcpplibs.mwrap.slint hands to this build program, on the SDK compat.slint provides).
 import mcpp;
-import slint.mcpp.plugins;
+import mcpp.mcpplibs.slintgen;
 
 int main() {
-    mcpp::plugins::slint::options o;
+    mcpp::mcpplibs::slintgen::options o;
+    o.sources = {"ui/app.slint"};
     o.module  = "app.ui";
     o.edition = "1.19";
-    return mcpp::plugins::slint::compile(o) ? 0 : 1;
+    return mcpp::mcpplibs::slintgen::compile(o) ? 0 : 1;
 }

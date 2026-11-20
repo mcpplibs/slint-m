@@ -16,7 +16,7 @@ env:
   # against that PR's candidate commit, the complete unchanged index layout
   # installed as the built-in index of the run's home. Drop this pin and the step
   # that reads it once the index publishes them.
-  MCPP_INDEX_CANDIDATE: "b0086041948b2143db08f353053215bd1a354e2f"
+  MCPP_INDEX_CANDIDATE: "4191fe3e1193ae4ce4360201ae0a45ca1c2e5463"
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -32,7 +32,7 @@ jobs:
         include:
           - { os: ubuntu-24.04,     toolchain: 'gcc@16.1.0' }
           - { os: ubuntu-24.04,     toolchain: 'llvm@23.1.3' }
-          - { os: ubuntu-24.04-arm, toolchain: 'llvm@23.1.3' }
+          # Linux arm64 waits for an aarch64 xim:fontconfig (compat.slint's payload needs it).
           - { os: macos-15,         toolchain: 'llvm@23.1.3' }
           - { os: windows-2025,     toolchain: 'llvm@23.1.3' }
     runs-on: ${{ matrix.os }}

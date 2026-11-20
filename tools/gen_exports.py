@@ -38,7 +38,7 @@ def core_unit(sf) -> str:
            '// properties\' types (SharedString, SharedVector, Color, Brush, Image …), models,',
            '// timers and the event loop, and slint::language. The names are upstream\'s;',
            '// the library is compat.slint\'s libslint_cpp. A component compiled from a',
-           '// `.slint` file (slint.mcpp.plugins) is used beside this module.',
+           '// `.slint` file (mcpp.mcpplibs.slintgen) is used beside this module.',
            'module;', '#include <slint.h>', '', 'export module mcpplibs.mwrap.slint;', '',
            'export import mcpplibs.mwrap.slint.macros;', '', 'export namespace slint {']
     out += using_block('slint', sf.names['slint'])

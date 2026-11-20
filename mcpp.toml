@@ -2,8 +2,8 @@
 [package]
 namespace   = "mcpplibs.mwrap"
 name        = "slint"
-version     = "1.19.0.1"
-description = "Slint 1.19.0 C++ modules for mcpp (import mcpplibs.mwrap.slint;): the runtime API, the interpreter and the platform API over compat.slint, the features as constants; .slint files compile with slint.mcpp.plugins"
+version     = "1.19.0.2"
+description = "Slint 1.19.0 C++ modules for mcpp (import mcpplibs.mwrap.slint;): the runtime API, the interpreter and the platform API over compat.slint, the features as constants; .slint files compile with mcpp.mcpplibs.slintgen"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]
 repo        = "https://github.com/mcpplibs/slint-m"
@@ -19,9 +19,15 @@ include_dirs = ["include"]
 
 [dependencies]
 # The SDK: libslint_cpp, its headers and slint-compiler. Re-exported, so a
-# consumer's build program finds slint-compiler in it (the rule
-# slint.mcpp.plugins, package mcpplibs.slintgen, is rules/ of this repository).
+# consumer's build program finds slint-compiler in it.
 compat.slint = { version = "1.19.0", reexport = true }
+
+# The build rule (module mcpp.mcpplibs.slintgen, rules/): handed to the
+# consumer's build program, so this one dependency is enough to import it in
+# build.mcpp -- the shape grpc-m gives grpcgen. It runs slint-compiler from
+# compat.slint above: one SDK, one version.
+[build-dependencies]
+mcpplibs.slintgen = { path = "rules", host-module = true, reexport = true }
 
 [package.metadata.mwrap]
 upstream-version = "1.19.0"

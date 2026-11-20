@@ -1,14 +1,15 @@
-// `.slint` files reach the rule from `[build] sources`; the module `app.ui`
+// The `.slint` file reaches the rule as `options::sources`; the module `app.ui`
 // exports what ui/app.slint exports and slint-compiler generates.
 import std;
 import mcpp;
-import slint.mcpp.plugins;
+import mcpp.mcpplibs.slintgen;
 
 int main() {
-    mcpp::plugins::slint::options o;
+    mcpp::mcpplibs::slintgen::options o;
+    o.sources = {"ui/app.slint"};
     o.module = "app.ui";
     o.style  = "fluent";
     // CI declares xim:slint in [xlings]; a local run may point at an SDK.
     if (const char* root = std::getenv("SLINT_SDK_ROOT"); root && *root) o.root = root;
-    return mcpp::plugins::slint::compile(o) ? 0 : 1;
+    return mcpp::mcpplibs::slintgen::compile(o) ? 0 : 1;
 }

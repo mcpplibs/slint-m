@@ -1,4 +1,4 @@
-// slint.mcpp.plugins -- how a `.slint` file becomes part of a C++ program.
+// mcpp.mcpplibs.slintgen -- how a `.slint` file becomes part of a C++ program.
 //
 // Slint describes a user interface in its own language; `slint-compiler`
 // turns each `.slint` file into a C++ header (and, with
@@ -32,7 +32,7 @@
 // not enough.
 //
 // WHERE SLINT COMES FROM IS THE PROJECT'S CHOICE, in this order; the first
-// that answers decides, and `mcpp::fact("slint.mcpp.plugins.sdk", …)` records it:
+// that answers decides, and `mcpp::fact("mcpp.mcpplibs.slintgen.sdk", …)` records it:
 //
 //   1. `options::compiler` / `options::root` in the build program;
 //   2. the environment variable `SLINT_COMPILER` (upstream CMake's cache
@@ -51,14 +51,14 @@
 // A MISSING SDK IS A WARNING. `mcpp emit build-database` plans a project on
 // machines that never built it; the rule says what it could not find and
 // declares nothing, so the plan succeeds and the build is where it fails.
-export module slint.mcpp.plugins;
+export module mcpp.mcpplibs.slintgen;
 
 import std;
 import mcpp;
 import mcpp.plugins;
 import mcpp.plugins.tool;
 
-export namespace mcpp::plugins::slint {
+export namespace mcpp::mcpplibs::slintgen {
 
 struct library_path {
     std::string name;   // the name `import { X } from "@name"` uses
@@ -66,7 +66,7 @@ struct library_path {
 };
 
 struct options {
-    // `.slint` files, beside those named in `[build] sources`.
+    // The `.slint` files, relative to the package root.
     std::vector<std::string> sources;
     std::string ns;                                // --cpp-namespace
     std::vector<library_path> library_paths;       // -L name=path
@@ -112,20 +112,6 @@ inline bool is_windows() { return std::string_view(mcpp::target_os()) == "window
 inline fs::path absolute_from_root(const std::string& p) {
     fs::path path(p);
     return path.is_absolute() ? path : fs::path(mcpp::manifest_dir()) / path;
-}
-
-inline std::vector<std::string> device_slint() {
-    std::vector<std::string> out;
-    const std::string all = mcpp::device_sources();
-    std::size_t i = 0;
-    while (i <= all.size()) {
-        auto nl = all.find('\n', i);
-        std::string one = all.substr(i, nl == std::string::npos ? std::string::npos : nl - i);
-        i = nl == std::string::npos ? all.size() + 1 : nl + 1;
-        while (!one.empty() && (one.back() == ' ' || one.back() == '\r')) one.pop_back();
-        if (one.size() > 6 && one.ends_with(".slint")) out.push_back(one);
-    }
-    return out;
 }
 
 inline std::string read_file(const fs::path& p) {
@@ -320,7 +306,7 @@ inline sdk locate(const options& opt) {
     sdk out;
     const std::string exe = is_windows() ? "slint-compiler.exe" : "slint-compiler";
     if (!opt.compiler.is_default() || !opt.root.empty()) {
-        tool::spec s{.who = "slint.mcpp.plugins", .ns = "xim", .package = "slint",
+        tool::spec s{.who = "mcpp.mcpplibs.slintgen", .ns = "xim", .package = "slint",
                      .programs = {"slint-compiler"}, .bin_dirs = {"bin", ""},
                      .option = "options::compiler", .legacy_env = "", .request = false};
         auto f = tool::resolve(s, opt.root.empty() ? opt.compiler : tool::root(opt.root));
@@ -336,7 +322,7 @@ inline sdk locate(const options& opt) {
             if (it->path().filename() == exe && it->path().parent_path().filename() == "bin")
                 return {generic(it->path()), {}, opt.sdk_package};
     }
-    tool::spec s{.who = "slint.mcpp.plugins", .ns = "xim", .package = "slint",
+    tool::spec s{.who = "mcpp.mcpplibs.slintgen", .ns = "xim", .package = "slint",
                  .programs = {"slint-compiler"}, .bin_dirs = {"bin"},
                  .option = "options::compiler", .legacy_env = "", .request = false};
     if (auto f = tool::resolve(s); f) return {f.program, f.root, "xim:slint"};
@@ -348,11 +334,10 @@ inline sdk locate(const options& opt) {
 inline bool compile(options opt = {}) {
     namespace fs = std::filesystem;
     using detail::generic;
-    const char* who = "slint.mcpp.plugins";
+    const char* who = "mcpp.mcpplibs.slintgen";
     mcpp::fact("mcpp.plugins", std::string(mcpp::plugins::version).c_str());
 
-    std::vector<std::string> inputs = detail::device_slint();
-    for (auto const& s : opt.sources) inputs.push_back(s);
+    const std::vector<std::string>& inputs = opt.sources;
     if (inputs.empty()) return true;
 
     const detail::sdk sdk = detail::locate(opt);
@@ -363,7 +348,7 @@ inline bool compile(options opt = {}) {
             "name it with options::compiler. Nothing is generated.", who, inputs.size()));
         return true;
     }
-    mcpp::fact("slint.mcpp.plugins.sdk", std::format("{}: {}", sdk.level, sdk.compiler).c_str());
+    mcpp::fact("mcpp.mcpplibs.slintgen.sdk", std::format("{}: {}", sdk.level, sdk.compiler).c_str());
 
     // An SDK that is not a package of the graph: its headers, library and
     // run-time directory are the rule's to put on the build.
@@ -433,7 +418,7 @@ inline bool compile(options opt = {}) {
         for (auto const& r : read) mcpp::rerun_if_changed(generic(r).c_str());
         const std::string module = files.size() == 1 ? opt.module : opt.module + "." + stem;
         std::string unit = std::format(
-            "// Generated by slint.mcpp.plugins from {} -- do not edit.\n"
+            "// Generated by mcpp.mcpplibs.slintgen from {} -- do not edit.\n"
             "module;\n#include <array>\n#include <limits>\n#include <slint.h>\n#include \"{}.h\"\n\n"
             "export module {};\n\n", f.filename().string(), stem, module);
         if (opt.ns.empty()) {
@@ -453,4 +438,4 @@ inline bool compile(options opt = {}) {
     return true;
 }
 
-}  // namespace mcpp::plugins::slint
+}  // namespace mcpp::mcpplibs::slintgen

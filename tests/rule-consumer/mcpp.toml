@@ -1,4 +1,4 @@
-# Fixture: a Slint user interface compiled by slint.mcpp.plugins, run headless.
+# Fixture: a Slint user interface compiled by mcpp.mcpplibs.slintgen, run headless.
 #
 #   ui/app.slint        a window (through a base component), a struct, an
 #                       enum, a global, a non-window export (no code), and a
@@ -11,7 +11,7 @@
 [package]
 name        = "slint-consumer"
 version     = "0.1.0"
-description = "Fixture: a Slint UI built through slint.mcpp.plugins"
+description = "Fixture: a Slint UI built through mcpp.mcpplibs.slintgen"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]
 
@@ -21,14 +21,14 @@ modules    = true
 import_std = false
 
 [build-dependencies]
-mcpplibs.slintgen = { path = "../../rules", features = ["slint"] }
+mcpplibs.slintgen = { path = "../../rules", host-module = true }
 
 # The SDK is the project's declaration, at the version it chooses.
 [target.'cfg(any(windows, linux, macos))'.xlings.workspace]
 "xim:slint" = "1.19.0"
 
 [build]
-sources = ["src/*.cpp", "ui/app.slint"]
+sources = ["src/*.cpp"]
 
 [targets.slint-consumer]
 kind = "bin"

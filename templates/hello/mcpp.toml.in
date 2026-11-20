@@ -6,14 +6,7 @@ version = "0.1.0"
 kind = "bin"
 main = "src/main.cpp"
 
-[build]
-# ui/app.slint reaches slint.mcpp.plugins, which writes app.h and the module app.ui.
-sources = ["src/*.cpp", "ui/app.slint"]
-
+# build.mcpp compiles ui/app.slint into app.h and the module app.ui
+# (mcpp.mcpplibs.slintgen, which the wrapper hands to the build program).
 [dependencies]
 {{self.name}} = "{{self.version}}"
-
-# The build rule: ui/app.slint -> app.h and the module app.ui. Its feature
-# classifies `.slint` as a source the rule claims.
-[build-dependencies]
-mcpplibs.slintgen = { version = "{{self.version}}", features = ["slint"] }

@@ -1,0 +1,45 @@
+# slintgen — how a `.slint` file becomes part of a C++ program, as a package.
+#
+# The module is `mcpp.plugins.slint` (rules/src/slint.cppm). A consumer's
+# build.mcpp imports it:
+#
+#   import mcpp;
+#   import mcpp.plugins.slint;
+#   int main() { return mcpp::plugins::slint::compile({}) ? 0 : 1; }
+#
+# It lives here, beside the modules whose Slint SDK it drives, as grpcgen lives
+# in grpc-m: mcpp-plugins holds the rules that are not tied to one library's
+# release, this repository the one that is. SPEC-007 R9.6 keeps `mcpp.plugins.*`
+# for the mcpp project's own namespace, so the engine warns once per build that
+# a package outside it provides this module; the name is the maintainer's
+# choice and the warning is its price.
+#
+# Versioned with slint-m (and so with the Slint it is built against).
+[package]
+name        = "slintgen"
+version     = "1.19.0"
+standard    = "c++23"
+description = "slint-compiler as an importable mcpp build rule (module mcpp.plugins.slint)"
+license     = "Apache-2.0"
+repo        = "https://github.com/mcpplibs/slint-m"
+platforms   = ["linux", "macos", "windows"]
+
+# The rule reuses mcpp.plugins' tool resolution (`mcpp.plugins.tool`, feature
+# `plugins-core`) and records its version as a fact. What a rule's module
+# imports is in its `[dependencies]` (mcpp 2026.10.11.1+); a consumer's build
+# program compiles it with the module.
+[dependencies]
+mcpp.plugins = { version = "0.26.1", features = ["plugins-core"] }
+
+# `.slint` is no extension the engine knows: the feature claims it, so a project
+# lists `ui/app.slint` in `[build] sources` and the rule submits its action.
+[features]
+default = []
+
+[features.slint]
+sources           = ["src/slint.cppm"]
+rule_module       = "mcpp.plugins.slint"
+device_extensions = [".slint"]
+
+[targets.slintgen]
+kind = "lib"

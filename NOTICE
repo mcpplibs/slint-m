@@ -1,0 +1,16 @@
+slint-m: C++ module wrapper
+Copyright (c) 2026 mcpp-community contributors
+
+The wrapper contributions are licensed under the Apache License, Version 2.0.
+Upstream code, copied interfaces and dependencies retain their original
+licenses and copyright notices. Slint is available under the GNU GPLv3, the
+Slint Royalty-free License 2.0 or the Slint Commercial License, at the user's
+choice:
+
+  Copyright © SixtyFPS GmbH <info@slint.dev>
+
+Its README, LICENSE.md and the three license texts are retained in
+upstream/slint/. The library and slint-compiler are compat.slint's (xim:slint,
+built from the release tag); their own notices, including the third-party
+crates linked, are the SDK's licenses/ directory, which compat.slint deploys.
+Provenance and checksums are recorded in upstream/documents.json.

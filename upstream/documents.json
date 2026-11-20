@@ -1,0 +1,36 @@
+{
+  "upstream": "https://github.com/slint-ui/slint/archive/refs/tags/v1.19.0.tar.gz",
+  "upstream_sha256": "9c15a9f6dfe94fbe96cb97dcb38207907403a67c9b23d8a93468ea1bb132246c",
+  "sdk": {
+    "url": "https://github.com/xlings-res/slint/releases/download/1.19.0/slint-1.19.0-default-linux-x86_64.tar.gz",
+    "sha256": "447194e4238f16249eb323cba9190a7deff38fc089617c614116b9aaaf17b43f"
+  },
+  "pruning": "Nothing of Slint is vendored: the library is compat.slint 1.19.0, a binding of xim:slint, the C++ SDK built from the tag with upstream CMake's default features (xlings-res/slint). The module surface is generated from that SDK's headers (tools/gen_exports.py; `sdk` above is the archive it reads). Slint's README, LICENSE.md and the three license texts it offers are retained here.",
+  "documents": [
+    {
+      "path": "upstream/slint/README.md",
+      "source": "https://github.com/slint-ui/slint/blob/v1.19.0/README.md",
+      "sha256": "63dbdb3575864dfc9382e5b9fbdb8b4f9d0e9d2193176b90699fadedd9724960"
+    },
+    {
+      "path": "upstream/slint/LICENSE.md",
+      "source": "https://github.com/slint-ui/slint/blob/v1.19.0/LICENSE.md",
+      "sha256": "d767912198851eaeaabb8390515ae4eb7e2954f8b39e9cbc4711a5b057b26be0"
+    },
+    {
+      "path": "upstream/slint/LICENSES/GPL-3.0-only.txt",
+      "source": "https://github.com/slint-ui/slint/blob/v1.19.0/LICENSES/GPL-3.0-only.txt",
+      "sha256": "b6a8bf63ae2c95b0aa256ee774680d7bd18f21f457da75466f7610b3b16acc4e"
+    },
+    {
+      "path": "upstream/slint/LICENSES/LicenseRef-Slint-Royalty-free-2.0.md",
+      "source": "https://github.com/slint-ui/slint/blob/v1.19.0/LICENSES/LicenseRef-Slint-Royalty-free-2.0.md",
+      "sha256": "5167f5056e850419106ab6265efbdca7cba4d99c849d1445ca0bbf6a1e2315fe"
+    },
+    {
+      "path": "upstream/slint/LICENSES/LicenseRef-Slint-Software-3.0.md",
+      "source": "https://github.com/slint-ui/slint/blob/v1.19.0/LICENSES/LicenseRef-Slint-Software-3.0.md",
+      "sha256": "a235744b92f4453fe18e081e54f29468a6a9db6a44e9a8f6364a48001ba4f10f"
+    }
+  ]
+}

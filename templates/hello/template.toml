@@ -1,0 +1,4 @@
+[template]
+description  = "A Slint window with import mcpplibs.mwrap.slint: ui/app.slint compiled by mcpp.plugins.slint into the module app.ui, a counter driven from C++"
+default      = true
+post_message = "Run `mcpp run`: a window with a counter. Without a display (or with SLINT_HEADLESS=1) it runs on Slint's software renderer and prints the counter."

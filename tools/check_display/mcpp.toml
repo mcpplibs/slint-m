@@ -1,0 +1,17 @@
+[package]
+name        = "glprobe"
+version     = "0.1.0"
+description = "Minimal probe: can a program built by mcpp load the host's GL driver libraries, and does EGL on X11 give it a configuration?"
+license     = "Apache-2.0"
+
+[language]
+standard   = "c++23"
+modules    = true
+import_std = false
+
+[build]
+sources = ["src/*.cpp"]
+
+[targets.glprobe]
+kind = "bin"
+main = "src/main.cpp"

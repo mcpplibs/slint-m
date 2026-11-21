@@ -73,6 +73,15 @@ int main() {
 Linux 上该库只依赖 fontconfig（xim:fontconfig）和 C 运行时；X11、Wayland 与 GL 在用到时
 动态加载。`mcpplibs::mwrap::slint::macros::SLINT_FEATURE_RENDERER_SKIA` 等常量说明哪些功能存在。
 
+### Linux 上的窗口需要 GL 厂商库
+
+libglvnd 只是分发器：默认的 OpenGL 渲染器开窗口还需要厂商库（Mesa；NVIDIA 的 X 服务器上是
+NVIDIA 的）。`compat.slint` 依赖 `compat.glx-runtime`（`compat.glfw` 用的同一个包）来提供它，
+项目不需要额外写什么；更早的描述符则需要在 `[dependencies]` 里加
+`compat.glx-runtime = "2026.09.11"`。窗口仍以 `argument does not name a valid config` 中止时，
+[`tools/check_display/`](tools/check_display/README.md) 能指出缺的是哪一环；
+期间可用 `SLINT_BACKEND=winit-software` 不经 GL 运行。
+
 ## 构建与测试
 
 Linux、macOS 与 Windows 的 CI 用 GCC 和 Clang 构建模块并运行测试：经模块使用运行时类型，

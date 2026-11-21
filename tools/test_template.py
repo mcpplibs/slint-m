@@ -64,15 +64,15 @@ def main():
         lines[matches[0]] = identity + " = " + replacement
         # The build rule is this repository's rules/: the scaffold's dependency on it, which
         # names the index version a published release has, is the checkout's own copy here.
-        rule = tomllib.loads(text).get("build-dependencies", {}).get("mcpplibs", {}).get("slintgen")
+        rule = tomllib.loads(text).get("build-dependencies", {}).get("mcpplibs", {}).get("mplugin", {}).get("slint")
         if rule is not None:
             rule = {"version": rule} if isinstance(rule, str) else rule
-            rule_line = 'mcpplibs.slintgen = { path = ' + json.dumps((package / "rules").as_posix())
+            rule_line = 'mcpplibs.mplugin.slint = { path = ' + json.dumps((package / "rules").as_posix())
             if rule.get("features"):
                 rule_line += ', features = ' + json.dumps(rule["features"])
             rule_line += ' }'
-            rule_at = [i for i, line in enumerate(lines) if line.startswith("mcpplibs.slintgen =")]
-            assert len(rule_at) == 1, "Expected exactly one mcpplibs.slintgen build dependency"
+            rule_at = [i for i, line in enumerate(lines) if line.startswith("mcpplibs.mplugin.slint =")]
+            assert len(rule_at) == 1, "Expected exactly one mcpplibs.mplugin.slint build dependency"
             lines[rule_at[0]] = rule_line
         manifest.write_text("\n".join(lines) + "\n")
         if args.index:

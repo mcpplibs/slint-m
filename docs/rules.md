@@ -1,29 +1,29 @@
-# `mcpp.mcpplibs.slintgen`
+# `mcpplibs.mplugin.slint`
 
-`mcpp.mcpplibs.slintgen` compiles [Slint](https://slint.dev) user interfaces: each `.slint` file becomes, through `slint-compiler`, a C++ header (and on request a number of `.cpp` units and a C++ module) the program uses. It is what upstream's CMake function `slint_target_sources` does. The rule declares no SDK and pins no version: the compiler and the runtime the program links come from one Slint SDK the project chooses. Package `mcpplibs.slintgen` (`rules/` of this repository), module `mcpp.mcpplibs.slintgen`; engine floor 2026.10.1.3.
+`mcpplibs.mplugin.slint` compiles [Slint](https://slint.dev) user interfaces: each `.slint` file becomes, through `slint-compiler`, a C++ header (and on request a number of `.cpp` units and a C++ module) the program uses. It is what upstream's CMake function `slint_target_sources` does. The rule declares no SDK and pins no version: the compiler and the runtime the program links come from one Slint SDK the project chooses. Package `mcpplibs.mplugin.slint` (`rules/` of this repository), module `mcpplibs.mplugin.slint`; engine floor 2026.10.1.3.
 
 ## Use
 
 ```toml
 [dependencies]
-mcpplibs.mwrap.slint = "1.19.0.2"      # re-exports this rule and the SDK (compat.slint)
+mcpplibs.mwrap.slint = "1.19.0.3"      # re-exports this rule and the SDK (compat.slint)
 ```
 
-The wrapper hands the rule to the project's build program, so this one dependency is enough. A project that does not use the wrapper writes `mcpplibs.slintgen = { version = "1.19.0.2", host-module = true }` under `[build-dependencies]` and depends on `compat.slint` for the SDK.
+The wrapper hands the rule to the project's build program, so this one dependency is enough. A project that does not use the wrapper writes `mcpplibs.mplugin.slint = { version = "1.19.0", host-module = true }` under `[build-dependencies]` and depends on `compat.slint` for the SDK.
 
-One name in three spellings, as `mcpplibs.openkal-bind` is (SPEC-007 R9.6, a third-party plugin's `mcpp.<namespace>.<name>`): package `mcpplibs.slintgen`, module `mcpp.mcpplibs.slintgen`, C++ namespace `mcpp::mcpplibs::slintgen`.
+One name in three spellings: a build plugin's id is `<owner>.mplugin.<name>` (mcpp-index `docs/build-plugins.md`), and its module and C++ namespace are that id: package `mcpplibs.mplugin.slint`, module `mcpplibs.mplugin.slint`, C++ namespace `mcpplibs::mplugin::slint`. The rule's own version is the Slint it drives (`1.19.0`); this wrapper's revisions (`1.19.0.3`) are its own.
 
 The `.slint` files are the rule's `options::sources`, relative to the package root; they are not listed in `[build] sources`, which mcpp reads as C++.
 
 ```cpp
 // build.mcpp
-import mcpp.mcpplibs.slintgen;
+import mcpplibs.mplugin.slint;
 
 int main() {
-    mcpp::mcpplibs::slintgen::options o;
+    mcpplibs::mplugin::slint::options o;
     o.sources = {"ui/app.slint"};
     o.module = "app.ui";              // also write `export module app.ui;`
-    return mcpp::mcpplibs::slintgen::compile(o) ? 0 : 1;
+    return mcpplibs::mplugin::slint::compile(o) ? 0 : 1;
 }
 ```
 
@@ -67,7 +67,7 @@ The rule reads the `.slint` files while the build program runs, so a change to t
 
 ## The SDK
 
-The first that answers decides, recorded as the fact `mcpp.mcpplibs.slintgen.sdk`:
+The first that answers decides, recorded as the fact `mcpplibs.mplugin.slint.sdk`:
 
 | level | how |
 |---|---|

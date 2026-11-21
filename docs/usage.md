@@ -28,7 +28,7 @@ import mcpplibs.mwrap.slint;
 
 ## Components from `.slint` files
 
-`mcpp.mcpplibs.slintgen` (package `mcpplibs.slintgen`, `rules/` of this repository; this package re-exports it to the project's build program, and compat.slint re-exports `slint-compiler`) runs `slint-compiler` on each `.slint` file the build program names in `options::sources`: one action per file, regenerated when the file or one it imports changes. Its options are upstream CMake's `slint_target_sources` and target properties (`ns`, `library_paths`, `compilation_units`, `edition`, `style`, `embed_resources`, `scale_factor`, `translation_domain`, `bundle_translations`); with `module = "app.ui"` each file also becomes a module exporting its windows, structs, enums and globals. See [rules.md](rules.md).
+`mcpplibs.mplugin.slint` (package `mcpplibs.mplugin.slint`, `rules/` of this repository; this package re-exports it to the project's build program, and compat.slint re-exports `slint-compiler`) runs `slint-compiler` on each `.slint` file the build program names in `options::sources`: one action per file, regenerated when the file or one it imports changes. Its options are upstream CMake's `slint_target_sources` and target properties (`ns`, `library_paths`, `compilation_units`, `edition`, `style`, `embed_resources`, `scale_factor`, `translation_domain`, `bundle_translations`); with `module = "app.ui"` each file also becomes a module exporting its windows, structs, enums and globals. See [rules.md](rules.md).
 
 ## The SDK's features
 

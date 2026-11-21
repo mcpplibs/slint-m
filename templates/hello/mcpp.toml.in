@@ -7,6 +7,6 @@ kind = "bin"
 main = "src/main.cpp"
 
 # build.mcpp compiles ui/app.slint into app.h and the module app.ui
-# (mcpp.mcpplibs.slintgen, which the wrapper hands to the build program).
+# (mcpplibs.mplugin.slint, which the wrapper hands to the build program).
 [dependencies]
 {{self.name}} = "{{self.version}}"

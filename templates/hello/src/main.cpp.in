@@ -1,5 +1,5 @@
 // {{project.name}} -- a Slint window: ui/app.slint is compiled into the module
-// app.ui (mcpp.mcpplibs.slintgen), the counter lives in C++.
+// app.ui (mcpplibs.mplugin.slint), the counter lives in C++.
 //
 // Without a display (Linux with neither DISPLAY nor WAYLAND_DISPLAY, or
 // SLINT_HEADLESS=1) the program uses Slint's software renderer behind a

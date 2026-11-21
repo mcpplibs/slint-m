@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# mcpp.mcpplibs.slintgen end to end: the fixture builds with the SDK the project declares
+# mcpplibs.mplugin.slint end to end: the fixture builds with the SDK the project declares
 # (xim:slint), runs headless, and the rule's actions behave as one per input:
 # the module exports what the input exports, an edit of a file the input
 # imports regenerates it, a build with nothing changed regenerates nothing.

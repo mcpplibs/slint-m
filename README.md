@@ -77,6 +77,16 @@ fontconfig (xim:fontconfig) and the C runtime only; X11, Wayland and GL are load
 when used. `mcpplibs::mwrap::slint::macros::SLINT_FEATURE_RENDERER_SKIA` and the
 others say which features are present.
 
+### A window on Linux needs a GL vendor
+
+libglvnd is only a dispatcher: a window on the default OpenGL renderer also needs the
+vendor library (Mesa, or NVIDIA's on an NVIDIA X server). `compat.slint` depends on
+`compat.glx-runtime` (the same package `compat.glfw` uses) for it, so a project needs
+nothing extra; an older descriptor needs `compat.glx-runtime = "2026.09.11"` in
+`[dependencies]`. If a window still aborts with `argument does not name a valid config`,
+[`tools/check_display/`](tools/check_display/README.md) shows which part is missing;
+`SLINT_BACKEND=winit-software` runs without GL meanwhile.
+
 ## Build and testing
 
 Linux, macOS and Windows CI build the modules with GCC and Clang and run the tests:

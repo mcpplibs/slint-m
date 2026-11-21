@@ -2,14 +2,14 @@
 // exports what ui/app.slint exports and slint-compiler generates.
 import std;
 import mcpp;
-import mcpp.mcpplibs.slintgen;
+import mcpplibs.mplugin.slint;
 
 int main() {
-    mcpp::mcpplibs::slintgen::options o;
+    mcpplibs::mplugin::slint::options o;
     o.sources = {"ui/app.slint"};
     o.module = "app.ui";
     o.style  = "fluent";
     // CI declares xim:slint in [xlings]; a local run may point at an SDK.
     if (const char* root = std::getenv("SLINT_SDK_ROOT"); root && *root) o.root = root;
-    return mcpp::mcpplibs::slintgen::compile(o) ? 0 : 1;
+    return mcpplibs::mplugin::slint::compile(o) ? 0 : 1;
 }

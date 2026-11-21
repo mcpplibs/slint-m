@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  # compat.slint 1.19.0 and mcpplibs.slintgen 1.19.0 are in an mcpp-index
+  # compat.slint 1.19.0 is in an mcpp-index
   # PR and not yet in the published index: until they are, the run resolves
   # against that PR's candidate commit, the complete unchanged index layout
   # installed as the built-in index of the run's home. Drop this pin and the step
@@ -75,7 +75,7 @@ jobs:
           done
           mcpp --version
 
-      - name: Candidate index (compat.slint, slintgen)
+      - name: Candidate index (compat.slint)
         run: |
           mcpp index update
           # No early exit in awk: mcpp would take SIGPIPE, and pipefail report it.
@@ -101,7 +101,15 @@ jobs:
       - name: Tests, release profile
         run: mcpp test --profile release
 
-      - name: mcpp.mcpplibs.slintgen generates a component, its module, and runs it headless with the SDK the project declares
+      - name: The rule's module is its package id (mcpp-index docs/build-plugins.md)
+        run: |
+          # A build plugin `<owner>.mplugin.<name>` exports a module of exactly that
+          # name; the index cannot read the archive's sources, so the check is here.
+          grep -qE '^export module mcpplibs\.mplugin\.slint;' rules/src/slint.cppm
+          grep -qE '^export namespace mcpplibs::mplugin::slint ' rules/src/slint.cppm
+          grep -qE '^name += "slint"' rules/mcpp.toml
+
+      - name: mcpplibs.mplugin.slint generates a component, its module, and runs it headless with the SDK the project declares
         run: MCPP="$(command -v mcpp)" bash tests/rule-consumer/check-slint.sh
 
       - name: Export audit (the generated surface is fresh; every public name, key code and feature of the SDK's headers)

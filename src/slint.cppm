@@ -5,7 +5,7 @@
 // properties' types (SharedString, SharedVector, Color, Brush, Image …), models,
 // timers and the event loop, and slint::language. The names are upstream's;
 // the library is compat.slint's libslint_cpp. A component compiled from a
-// `.slint` file (mcpp.mcpplibs.slintgen) is used beside this module.
+// `.slint` file (mcpplibs.mplugin.slint) is used beside this module.
 module;
 #include <slint.h>
 
